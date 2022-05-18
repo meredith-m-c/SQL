@@ -1,0 +1,27 @@
+/* Create table about the people and what they do here */
+CREATE TABLE famous_people (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
+INSERT INTO famous_people (name) VALUES('Taylor Swift');
+INSERT INTO famous_people (name) VALUES('Selena Gomez');
+INSERT INTO famous_people (name) VALUES('Miley Cyrus');
+INSERT INTO famous_people (name) VALUES('Sigrid');
+INSERT INTO famous_people (name) VALUES('Grimes');
+SELECT * FROM famous_people;
+CREATE TABLE known_for (id INTEGER PRIMARY KEY AUTOINCREMENT, known_for TEXT, famous_people_id TEXT);
+INSERT INTO known_for (known_for, famous_people_id) VALUES('singing', 1);
+INSERT INTO known_for (known_for, famous_people_id) VALUES('songwriting', 1);
+INSERT INTO known_for (known_for, famous_people_id) VALUES('singing', 4);
+INSERT INTO known_for (known_for, famous_people_id) VALUES('production', 5);
+INSERT INTO known_for (known_for, famous_people_id) VALUES('acting', 2);
+SELECT * FROM known_for;
+CREATE TABLE has_dated (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, famous_people_id TEXT);
+INSERT INTO has_dated (name, famous_people_id) VALUES ('Joe Alwyn', 1);
+INSERT INTO has_dated (name, famous_people_id) VALUES ('Elon Musk', 5);
+INSERT INTO has_dated (name, famous_people_id) VALUES ('Liam Hemsworth', 3);
+INSERT INTO has_dated (name, famous_people_id) VALUES ('Justin Bieber', 2);
+INSERT INTO has_dated (name, famous_people_id) VALUES ('Tom Hiddleston', 1);
+SELECT * FROM has_dated;
+
+SELECT famous_people.name, has_dated.name FROM famous_people
+JOIN has_dated
+WHERE famous_people.id = has_dated.famous_people_id
+ORDER BY famous_people.name;
