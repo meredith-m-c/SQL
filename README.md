@@ -1,2 +1,3 @@
-# SQL
-SQL Portfolio
+# Meredith Collier's SQL Portfolio
+
+## Welcome to my SQL portfolio! This code repository contains examples of SQL I've written. Feel free to browse and contact me if you have any questions.
