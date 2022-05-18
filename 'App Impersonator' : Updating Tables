@@ -1,0 +1,17 @@
+/*CREATE DATABASE FOR THE GAME I AM ADDICTED TO: 1010*/
+CREATE TABLE tenten (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT default meremeremere, score INTEGER, high_score INTEGER default 32510);
+
+INSERT INTO tenten (score) VALUES (6321);
+INSERT INTO tenten (score) VALUES (10524);
+INSERT INTO tenten (score) VALUES (20896);
+INSERT INTO tenten (score) VALUES (23015);
+INSERT INTO tenten (score) VALUES (63520);
+SELECT * FROM tenten;
+
+/*UPDATE HIGH SCORE VALUE WHEN IT BECOMES GREATER THAN CURRENT HIGH SCORE*/
+UPDATE tenten SET high_score = score WHERE high_score < score;
+SELECT * FROM tenten;
+
+/*DELETE FIRST ENTRY*/
+DELETE FROM tenten WHERE id = 1;
+SELECT * FROM tenten;
