@@ -1,0 +1,49 @@
+/*create grocery store database with products found at H-E-B*/
+CREATE TABLE store (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price REAL, weight_lbs REAL, department TEXT, num_sold_today INTEGER);
+
+/*add items to database*/
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Fresh Envy Apple', 1.24, .61, 'produce', 23);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Heirloom Naval Oranges', 5.02, 3.0, 'produce', 4);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Vegetable Medley', 2.86, .75, 'produce', 5);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Small 100% Whole Wheat Bread', 1.92, 1, 'bakery', 10);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Round Top Large White Enriched Bread', 1.93, 1.25, 'bakery', 6);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Garlic Vegan Naan Bread', 2.63, .6575, 'bakery', 2);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Mexican Style Blend Cheese, Shredded', 2.86, .5, 'dairy', 1);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Monterey Jack Cheese with Jalapenos', 2.61, .5, 'dairy', 2);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Maple Glazed Ham, Sliced', 8.72, 1, 'deli', 4);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Oven Roasted Turkey Breast', 7.20, 1, 'deli', 5);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Hard Salami, Sliced', 8.21, 1, 'deli', 1);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Classic Granola', 3.07, .875, 'pantry', 7);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Grade A Medium Amber Maple Syrup', 9.25, .75, 'pantry', 1);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Frosted Shredded Wheat Cereal', 1.49, 1.125, 'pantry', 3);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Cheese Texas Toast', 2.45, .81, 'frozen', 8);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Family Size Homestyle Lasagna', 8.78, 2.375, 'frozen', 2);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Thin Crust Uncured Pepperoni Pizza', 5.44, .884, 'frozen', 5);
+INSERT INTO store (item, price, weight_lbs, department, num_sold_today) VALUES ('Buttermilk Waffles', 2.04, .769, 'frozen', 4);
+
+/*display database*/
+SELECT * FROM store;
+
+/*display total number of items sold today*/
+SELECT SUM(num_sold_today) AS 'Total Items Sold Today' FROM store;
+
+/*display the most expensive item*/
+SELECT item AS 'Most Expensive Item', MAX(price) FROM store;
+
+/*display the least expensive item*/
+SELECT item AS 'Least Expensive Item', MIN(price) FROM store;
+
+/*display the 3 most popular item sold today*/
+SELECT item AS 'Most Popular Items', num_sold_today FROM store
+ORDER BY num_sold_today DESC
+LIMIT 3;
+
+/*display the average item weight*/
+SELECT AVG(weight_lbs) AS 'Average Item Weight' FROM store;
+
+/*display number of items sold per department, ordered by popularity*/
+SELECT department, SUM(num_sold_today)
+FROM store
+GROUP BY department
+ORDER BY 2 DESC;
+
