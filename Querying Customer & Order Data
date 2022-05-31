@@ -1,0 +1,42 @@
+--Here, I'm querying a database with multiple tables to quantify statistics about customer and order data. 
+
+--Display some data from the JanSales table.
+SELECT * FROM BIT_DB.JanSales LIMIT 20;
+
+--Display the number of orders occured in January.
+SELECT COUNT(orderID) FROM BIT_DB.JanSales;
+
+--How many OF the January orders were for an iPhone?
+SELECT COUNT(product) FROM BIT_DB.JanSales
+WHERE product = 'iPhone';
+
+--Select the customer account numbers for all the orders that were placed in February.
+SELECT customers.acctnum
+FROM BIT_DB.FebSales
+INNER JOIN BIT_DB.customers
+ON FebSales.orderID = customers.order_ID;
+
+--Which product was the cheapest one sold in January, and what was the price? 
+SELECT DISTINCT product, price
+FROM BIT_DB.JanSales
+ORDER BY price ASC
+LIMIT 1;
+
+--What is the total revenue for each product sold in January?
+SELECT SUM(quantity) * price AS revenue, product
+FROM BIT_DB.JanSales
+GROUP BY product;
+
+--Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT SUM(quantity), product, SUM(quantity) * price AS revenue
+FROM BIT_DB.FebSales
+WHERE location LIKE '548 Lincoln St%'
+GROUP BY product;
+
+--How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+SELECT COUNT(cust.acctnum) AS 'Number of Customers', 
+AVG(price) * quantity
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON Feb.orderid = cust.order_id
+WHERE Feb.Quantity > 2;
