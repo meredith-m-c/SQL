@@ -1,0 +1,135 @@
+--This file is from an exercise I did in SQlLiteStudio. I downloaded Spotify data from Kaggle and used SQL to build and query a table.
+
+--First I created an empty table to import data into:
+CREATE TABLE BIT_DB.SpotifyData (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+artist_name VARCHAR NOT NULL,
+track_name VARCHAR NOT NULL,
+track_id VARCHAR NOT NULL,
+popularity INT NOT NULL,
+danceability DECIMAL (4, 3) NOT NULL,
+energy DECIMAL (4, 3) NOT NULL,
+key INT NOT NULL,
+loudness DECIMAL (5, 4) NOT NULL,
+mode INT NOT NULL,
+speechiness DECIMAL (5, 4) NOT NULL,
+acousticness DECIMAL (6, 5) NOT NULL,
+instrumentalness TEXT NOT NULL,
+liveness DECIMAL (5, 4) NOT NULL,
+valance DECIMAL (5, 4) NOT NULL,
+tempo DECIMAL (6, 3) NOT NULL,
+duration_ms INT NOT NULL,
+time_signature INT NOT NULL
+)
+
+--Then I imported the .csv file with Spotify's top 50 songs of 2021 into the table and queried the entire table to check for errors.
+SELECT * FROM BIT_DB.SpotifyData;
+
+--I noticed a few errors that occured during the file conversion so I updated the table to reflect the proper artist and title names.
+--It took several queries before I was satisfied with the data:
+UPDATE BIT_DB.SpotifyData 
+SET track_name ='Que Mas Pues?'
+WHERE track_name = 'QuÃ© MÃ¡s Pues?';
+
+UPDATE BIT_DB.SpotifyData
+SET artist_name = 'Tiësto'
+WHERE artist_name = 'TiÃ«sto';
+
+UPDATE BIT_DB.SpotifyData
+SET artist_name = 'Måneskin'
+WHERE artist_name = 'MÃ¥neskin';
+
+UPDATE BIT_DB.SpotifyData
+SET track_name = 'DÁKITI'
+WHERE track_name = 'DÃKITI';
+
+UPDATE BIT_DB.SpotifyData
+SET track_name = 'telepatía' WHERE track_name = 'telepatÃ­a';
+
+UPDATE BIT_DB.SpotifyData
+SET track_name = 'Pareja Del Año' WHERE track_name = 'Pareja Del AÃ±o';
+
+
+--Since Olivia Rodrigo had the top song of the year, I was curious to see how many other of her songs made it into the top 50. 
+--(The answer is 4 - pretty incredible for a first album):
+SELECT track_name FROM BIT_DB.SpotifyData
+WHERE artist_name = 'Olivia Rodrigo';
+
+
+--I know Olivia Rodrigo has 4 songs in the top 50 chart, but does anyone have more?
+--(Nope. Doja Cat was the only artist to match Rodrigo with 4 songs on the list, and that's the max.)
+SELECT artist_name, COUNT(*) AS 'Top_Tracks'
+FROM BIT_DB.SpotifyData
+GROUP BY artist_name
+ORDER BY Top_Tracks DESC;
+
+
+--Querying the most 'danceable' songs of the year...
+SELECT track_name, danceability
+FROM BIT_DB.SpotifyData
+ORDER BY danceability DESC
+LIMIT 5;
+
+
+--What were the time signatures of the songs, and how many of each were there? 
+--(Note to self: Use a time signature of 4 to ensure popularity.)
+SELECT time_signature, COUNT(*)
+FROM BIT_DB.SpotifyData
+GROUP BY time_signature;
+
+
+-- Fastest song:
+SELECT track_name, MAX(tempo)
+FROM BIT_DB.SpotifyData;
+
+--Slowest song:
+SELECT track_name, MIN(tempo)
+FROM BIT_DB.SpotifyData;
+
+-- Based on my last two queries, I was able to create a case statement to group the data by tempo range.
+-- The most common tempo range was in the 120s.
+SELECT COUNT(*) AS 'Number_of_Songs',
+CASE
+WHEN tempo < 80 THEN '70s'
+WHEN tempo < 90 THEN '80s'
+WHEN tempo < 100 THEN '90s'
+WHEN tempo < 110 THEN '100s'
+WHEN tempo < 120 THEN '110s'
+WHEN tempo < 130 THEN '120s'
+WHEN tempo < 140 THEN '130s'
+WHEN tempo < 150 THEN '140s'
+WHEN tempo < 160 THEN '150s'
+WHEN tempo < 170 THEN '160s'
+WHEN tempo < 180 THEN '170s'
+WHEN tempo < 190 THEN '180s'
+ELSE '190s+'
+END AS 'Tempo_Range'
+FROM BIT_DB.SpotifyData
+GROUP BY Tempo_Range
+ORDER BY Number_of_Songs DESC;
+
+
+--Shortest song...
+SELECT track_name, duration_ms
+FROM BIT_DB.SpotifyData
+ORDER BY duration_ms
+LIMIT 1;
+
+--...And longest:
+SELECT track_name, duration_ms
+FROM BIT_DB.SpotifyData
+ORDER BY duration_ms DESC
+LIMIT 1;
+
+--Average length of the songs, in miliseconds:
+SELECT AVG(duration_ms)
+FROM BIT_DB.SpotifyData;
+
+--Lastly, I determined who the top 10 artists are based on popularity.
+SELECT artist_name, AVG(popularity)
+FROM BIT_DB.SpotifyData
+GROUP BY artist_name
+ORDER BY 2 DESC
+LIMIT 10;
+
+
