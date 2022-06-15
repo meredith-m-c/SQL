@@ -1,5 +1,5 @@
 
---I downloaded a database of 11 tables called "Chinook" into SQLLiteStudio and queried the data.
+--I downloaded a database of 11 tables with information regarding a digital media store into SQLLiteStudio and queried the data.
 
 
 --Show Customers (their full names, customer ID, and country) who are not in the US.
